@@ -1,0 +1,380 @@
+#include<stdio.h>
+#include<conio.h>
+#define max 25
+void main()
+{
+int frag[max],b[max],f[max],i,j,nb,nf,temp;
+static int bf[max],ff[max];
+clrscr();
+printf("\n\tMemory Management Scheme - First Fit");
+printf("\nEnter the number of blocks:");
+scanf("%d",&nb);
+printf("Enter the number of files:");
+scanf("%d",&nf);
+printf("\nEnter the size of the blocks:-\n");
+for(i=1;i<=nb;i++)
+{
+printf("Block %d:",i);
+scanf("%d",&b[i]);
+}
+printf("Enter the size of the files :-\n");
+for(i=1;i<=nf;i++)
+{
+printf("File %d:",i);
+scanf("%d",&f[i]);
+}
+for(i=1;i<=nf;i++)
+{
+for(j=1;j<=nb;j++)
+{
+if(bf[j]!=1)
+{
+temp=b[j]-f[i];
+if(temp>=0)
+{
+ff[i]=j;
+break;
+}
+}
+}
+frag[i]=temp;
+bf[ff[i]]=1;
+}
+printf("\nFile_no:\tFile_size :\tBlock_no:\tBlock_size:\tFragement");
+for(i=1;i<=nf;i++)
+printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,f[i],ff[i],b[ff[i]],frag[i]);
+getch();
+}
+
+INPUT
+Enter the number of blocks: 3
+Enter the number of files: 2
+
+Enter the size of the blocks:-
+Block 1: 5
+Block 2: 2
+Block 3: 7
+
+Enter the size of the files:-
+File 1: 1
+File 2: 4
+
+OUTPUT
+File No          File Size        Block No             Block Size           Fragment
+1                              1             1                              5                             4
+2                              4             3                              7                             3
+[17/04, 07:33] : First Fit
+[17/04, 07:34] : Best Fit
+PROGRAM:
+#include<stdio.h>
+#include<conio.h>
+#define max 25
+void main()
+{
+int frag[max],b[max],f[max],i,j,nb,nf,temp,lowest=10000;
+static int bf[max],ff[max];
+clrscr();
+printf("\nEnter the number of blocks:");
+scanf("%d",&nb);
+printf("Enter the number of files:");
+scanf("%d",&nf);
+printf("\nEnter the size of the blocks:-\n");
+for(i=1;i<=nb;i++)
+{
+printf("Block %d:",i);
+scanf("%d",&b[i]);
+}
+printf("Enter the size of the files :-\n");
+for(i=1;i<=nf;i++)
+{
+printf("File %d:",i);
+scanf("%d",&f[i]);
+}
+for(i=1;i<=nf;i++)
+{
+for(j=1;j<=nb;j++)
+{
+if(bf[j]!=1)
+{
+temp=b[j]-f[i];
+if(temp>=0)
+if(lowest>temp)
+{
+ff[i]=j;
+
+lowest=temp;
+}
+}
+}
+frag[i]=lowest;
+bf[ff[i]]=1;
+lowest=10000;
+}
+printf("\nFile No\tFile Size \tBlock No\tBlock Size\tFragment");
+for(i=1;i<=nf && ff[i]!=0;i++)
+printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,f[i],ff[i],b[ff[i]],frag[i]);
+getch();
+}
+
+INPUT
+Enter the number of blocks: 3
+Enter the number of files: 2
+
+Enter the size of the blocks:-
+Block 1: 5
+Block 2: 2
+Block 3: 7
+
+Enter the size of the files:-
+File 1: 1
+File 2: 4
+
+OUTPUT
+File No                  File Size               Block No             Block Size           Fragment
+1                              1                             2                             2                             1
+2                              4                              1                              5                             1
+[17/04, 07:34]: Best Fit
+[17/04, 07:34] : Worst Fit
+PROGRAM:
+#include<stdio.h>
+#include<conio.h>
+#define max 25
+void main()
+{
+int frag[max],b[max],f[max],i,j,nb,nf,temp,highest=0;
+static int bf[max],ff[max];
+clrscr();
+printf("\n\tMemory Management Scheme - Worst Fit");
+printf("\nEnter the number of blocks:");
+scanf("%d",&nb);
+printf("Enter the number of files:");
+scanf("%d",&nf);
+printf("\nEnter the size of the blocks:-\n");
+for(i=1;i<=nb;i++)
+{
+printf("Block %d:",i);
+scanf("%d",&b[i]);
+}
+printf("Enter the size of the files :-\n");
+for(i=1;i<=nf;i++)
+{
+printf("File %d:",i);
+scanf("%d",&f[i]);
+}
+for(i=1;i<=nf;i++)
+{
+
+for(j=1;j<=nb;j++)
+{
+if(bf[j]!=1) //if bf[j] is not allocated
+{
+temp=b[j]-f[i];
+if(temp>=0)
+if(highest<temp)
+{
+ff[i]=j;
+highest=temp;
+}
+}
+}
+frag[i]=highest;
+bf[ff[i]]=1;
+highest=0;
+}
+printf("\nFile_no:\tFile_size :\tBlock_no:\tBlock_size:\tFragement");
+for(i=1;i<=nf;i++)
+printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,f[i],ff[i],b[ff[i]],frag[i]);
+getch();
+}
+
+INPUT
+Enter the number of blocks: 3
+Enter the number of files: 2
+
+Enter the size of the blocks:-
+Block 1: 5
+Block 2: 2
+Block 3: 7
+
+Enter the size of the files:-
+File 1: 1
+File 2: 4
+
+OUTPUT
+File No                  File Size               Block No             Block Size           Fragment
+1                              1                             3                              7                              6
+2                              4                             1                              5                              1
+[17/04, 07:34] : Worst fit
+[17/04, 07:36] : Sequential file allocation strategy
+#include<stdio.h>
+struct fileTable
+{
+char name[20];
+int sb, nob;
+}
+ft[30];
+ void main()
+{
+int i, j, n;
+chars[20];
+printf("Enter no of files:");
+scanf("%d",&n);
+for(i=0;i<n;i++)
+{
+printf("\nEnter file name %d :",i+1);
+scanf("%s",ft[i].name);
+printf("Enterstarting block of file %d :",i+1);
+scanf("%d",&ft[i].sb);
+printf("Enter no of blocks in file %d :",i+1);
+scanf("%d",&ft[i].nob);
+}
+printf("\nEnter the file name to be searched-- ");
+scanf("%s",s);
+for(i=0;i<n;i++)
+if(strcmp(s, ft[i].name)==0)
+Break;
+if(i==n)
+printf("\nFile Not Found");
+else
+{
+printf("\nFILE NAME START BLOCK NO OF BLOCKS BLOCKS
+OCCUPIED\n");
+printf("\n%s\t\t%d\t\t%d\t",ft[i].name,ft[i].sb,ft[i].nob);
+for(j=0;j<ft[i].nob;j++)
+printf("%d, ",ft[i].sb+j);
+}
+}
+INPUT :
+Enter no of files :3
+Enter file name 1 :A
+Enterstarting block of file 1 :85
+Enter no of blocks in file 1 :6
+Enter file name 2 :B
+Enterstarting block of file 2 :102
+Enter no of blocks in file 2 :4
+Enter file name 3 :C
+Enter starting block of file 3 :60
+Enter no of blocks in file 3 :4
+Enter the file name to be searched – B
+OUTPUT :
+FILE NAME   START BLOCK      NO OF BLOCKS     BLOCKS OCCUPIED
+B                               102                              4              102, 103, 104, 105
+[17/04, 07:36] : Sequential file allocation strategy
+[17/04, 07:44] : #include<stdio.h>
+main()
+{
+int i, j, k, f, pf=0, count=0, rs[25], m[10], n;
+printf("\n Enter the length of reference string -- ");
+scanf("%d",&n);
+printf("\n Enter the reference string -- ");
+for(i=0;i<n;i++)
+scanf("%d",&rs[i]);
+printf("\n Enter no. of frames -- ");
+scanf("%d",&f);
+for(i=0;i<f;i++)
+ m[i]=-1;
+printf("\n The Page Replacement Process is -- \n");
+for(i=0;i<n;i++)
+ {
+for(k=0;k<f;k++)
+ {
+if(m[k]==rs[i])
+break;
+ }
+if(k==f)
+ {
+m[count++]=rs[i];
+pf++;
+ }
+for(j=0;j<f;j++)
+printf("\t%d",m[j]);
+if(k==f)
+printf("\tPF No. %d",pf);
+printf("\n");
+if(count==f)
+count=0;
+ }
+printf("\n The number of Page Faults using FIFO are %d",pf);
+}
+INPUT
+Enter the length of reference string – 20
+Enter the reference string -- 7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1
+Enter no. of frames – 3
+OUTPUT
+The Page Replacement Process is –
+7
+-1 
+-1 
+PF No. 1
+7 
+0 
+-1 
+PF No. 2
+7 
+0 
+1 
+PF No. 3
+2 
+0 
+1
+PF No. 4
+2 
+0
+1
+2 
+3
+1
+PF No. 5
+2 
+3
+0
+PF No. 6
+4 
+3
+0
+PF No. 7
+4 
+2
+0
+PF No. 8
+4 
+2
+3
+PF No. 9
+0 
+2
+3
+PF No. 10
+0 
+2
+3
+0 
+2
+3
+0 
+1
+3
+PF No. 11
+0 
+1
+2
+PF No. 12
+0 
+1 
+2
+0 
+1
+2
+7 
+1
+2
+PF No. 13
+7 
+0
+2
+PF No. 14
+7 
+0
+1
+PF No. 15
+The number of Page Faults using FIFO are 15
